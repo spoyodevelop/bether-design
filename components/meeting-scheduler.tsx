@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   ChevronDown,
   Plus,
@@ -178,7 +180,7 @@ export default function MeetingScheduler({
           </div>
 
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-            {/* Left Panel - Calendar/Location */}
+            {/* Left Panel - Calendar/Location/Heatmap */}
             <div>
               <Card className="border-0 shadow-xl bg-card h-full">
                 <CardContent className="p-8">

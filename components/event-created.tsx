@@ -752,6 +752,85 @@ export default function EventCreated() {
                         );
                       })()}
                     </div>
+
+                    <div className="p-4 bg-muted rounded-xl">
+                      <h4 className="font-bold text-foreground mb-3">
+                        시간대별 인기도 히트맵
+                      </h4>
+                      <div className="bg-background rounded-lg p-3 overflow-x-auto">
+                        <div className="min-w-[700px]">
+                          <div
+                            className="grid gap-px bg-border select-none border border-border rounded-lg overflow-hidden"
+                            style={{
+                              gridTemplateColumns: `60px repeat(${fullDays.length}, 1fr)`,
+                            }}
+                          >
+                            <div className="bg-card"></div>
+                            {fullDays.map((day, dayIndex) => (
+                              <div
+                                key={dayIndex}
+                                className="text-center py-2 text-xs font-semibold bg-card text-muted-foreground"
+                              >
+                                {day.split(" ")[0]}
+                                <br />
+                                <span className="text-xs font-normal">
+                                  (7/{dayIndex + 10})
+                                </span>
+                              </div>
+                            ))}
+                            {hours.map((hour) => (
+                              <React.Fragment key={hour}>
+                                <div className="flex items-center justify-center text-xs font-semibold bg-card text-muted-foreground">
+                                  {hour}:00
+                                </div>
+                                {fullDays.map((_, dayIndex) => {
+                                  const availableCount = getAvailabilityCount(
+                                    dayIndex,
+                                    hour
+                                  );
+                                  const maybeCount = getMaybeCount(
+                                    dayIndex,
+                                    hour
+                                  );
+                                  const totalCount =
+                                    availableCount + maybeCount;
+                                  return (
+                                    <TooltipProvider
+                                      key={`${dayIndex}-${hour}`}
+                                    >
+                                      <Tooltip>
+                                        <TooltipTrigger asChild>
+                                          <div
+                                            className={`h-6 transition-colors cursor-pointer hover:opacity-80 ${getStatisticsSlotColor(
+                                              dayIndex,
+                                              hour
+                                            )}`}
+                                          />
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                          <p className="font-medium">
+                                            {fullDays[dayIndex]} {hour}:00
+                                          </p>
+                                          <p className="text-sm">
+                                            가능: {availableCount}명
+                                          </p>
+                                          <p className="text-sm">
+                                            애매: {maybeCount}명
+                                          </p>
+                                          <p className="text-sm">
+                                            총: {totalCount}명
+                                          </p>
+                                        </TooltipContent>
+                                      </Tooltip>
+                                    </TooltipProvider>
+                                  );
+                                })}
+                              </React.Fragment>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
